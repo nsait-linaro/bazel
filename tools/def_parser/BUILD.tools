@@ -13,7 +13,7 @@ filegroup(
     srcs = select({
       "//src/conditions:host_windows": ["def_parser_windows"],
       "//conditions:default": [
-        "no_op.bat",
+        "def_parser_windows",
       ],
     }),
 )
