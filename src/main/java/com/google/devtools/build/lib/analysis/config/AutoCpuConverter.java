@@ -50,6 +50,8 @@ public class AutoCpuConverter implements Converter<String> {
           switch (CPU.getCurrent()) {
             case X86_64:
               return "x64_windows";
+            case AARCH64:
+              return "x64_arm64_windows";
             default:
               // We only support x64 Windows for now.
               return "unknown";
