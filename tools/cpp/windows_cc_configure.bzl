@@ -320,6 +320,9 @@ def _get_vc_env_vars(repository_ctx, vc_path, msvc_vars_x64, target_arch):
         lib = msvc_vars_x64["%{msvc_env_lib_x64}"]
         full_version = _get_vc_full_version(repository_ctx, vc_path)
         tools_path = "%s\\Tools\\MSVC\\%s\\bin\\HostX64\\%s" % (vc_path, full_version, target_arch)
+        # For native windows on arm64 builds host toolchain runs in an emulated x86 environment
+        if not repository_ctx.path(tools_path).exists:
+            tools_path = tools_path.replace("HostX64", "HostX86")
     else:
         lib = msvc_vars_x64["%{msvc_env_lib_x64}"].replace("amd64", _targets_lib_folder[target_arch])
         tools_path = vc_path + "\\bin\\" + _targets_archs[target_arch]
@@ -445,6 +448,9 @@ def find_msvc_tool(repository_ctx, vc_path, tool, target_arch = "x64"):
         full_version = _get_vc_full_version(repository_ctx, vc_path)
         if full_version:
             tool_path = "%s\\Tools\\MSVC\\%s\\bin\\HostX64\\%s\\%s" % (vc_path, full_version, target_arch, tool)
+            # For native windows on arm64 builds host toolchain runs in an emulated x86 environment
+            if not repository_ctx.path(tool_path).exists:
+                tool_path = tool_path.replace("HostX64", "HostX86")
     else:
         # For VS 2015 and older version, the tools are under:
         # C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64
