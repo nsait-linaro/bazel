@@ -80,8 +80,8 @@ public class ToolchainResolutionFunction implements SkyFunction {
           Preconditions.checkNotNull(configuration.getFragment(PlatformConfiguration.class));
 
       // Check if debug output should be generated.
-      boolean debug =
-          configuration.getOptions().get(PlatformOptions.class).toolchainResolutionDebug;
+      boolean debug = true;
+          // configuration.getOptions().get(PlatformOptions.class).toolchainResolutionDebug;
 
       // Load the configured target for the toolchain types to ensure that they are valid and
       // resolve aliases.
@@ -598,7 +598,7 @@ public class ToolchainResolutionFunction implements SkyFunction {
           && Iterables.getOnlyElement(missingToolchainTypes)
               .toString()
               .equals("@bazel_tools//tools/cpp:toolchain_type")) {
-        return "No matching toolchains found for types @bazel_tools//tools/cpp:toolchain_type. "
+        return "[Niya] No matching toolchains found for types @bazel_tools//tools/cpp:toolchain_type. "
             + "Maybe --incompatible_use_cc_configure_from_rules_cc has been flipped and there "
             + "is no default C++ toolchain added in the WORKSPACE file? See "
             + "https://github.com/bazelbuild/bazel/issues/10134 for details and migration "

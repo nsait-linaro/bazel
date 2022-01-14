@@ -47,6 +47,7 @@ public class AutoCpuConverter implements Converter<String> {
         case OPENBSD:
           return "openbsd";
         case WINDOWS:
+          System.out.println("AutoCpuCoverter detected CPU "+CPU.getCurrent());
           switch (CPU.getCurrent()) {
             case X86_64:
               return "x64_windows";

@@ -191,6 +191,7 @@ def get_cpu_value(repository_ctx):
     if os_name.find("windows") != -1:
         arch = (get_env_var(repository_ctx, "PROCESSOR_ARCHITECTURE", None, False) or
                 get_env_var(repository_ctx, "PROCESSOR_ARCHITEW6432", None, False))
+        print("lib_cc_configure: arch "+arch)
         if arch == "ARM64":
             return "x64_arm64_windows"
         else:
