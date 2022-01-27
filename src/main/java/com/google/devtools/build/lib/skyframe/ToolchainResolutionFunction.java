@@ -80,7 +80,7 @@ public class ToolchainResolutionFunction implements SkyFunction {
           Preconditions.checkNotNull(configuration.getFragment(PlatformConfiguration.class));
 
       // Check if debug output should be generated.
-      boolean debug = 
+      boolean debug =
           configuration.getOptions().get(PlatformOptions.class).toolchainResolutionDebug;
 
       // Load the configured target for the toolchain types to ensure that they are valid and

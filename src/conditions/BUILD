@@ -167,8 +167,13 @@ config_setting(
 )
 
 config_setting(
-    name = "windows_arm64_flag",
+    name = "windows_x64_arm64_flag",
     values = {"cpu": "x64_arm64_windows"},
+)
+
+config_setting(
+    name = "windows_arm64_flag",
+    values = {"cpu": "arm64_windows"},
 )
 
 selects.config_setting_group(
@@ -176,6 +181,7 @@ selects.config_setting_group(
     match_any = [
         ":windows_arm64_constraint",
         ":windows_arm64_flag",
+        ":windows_x64_arm64_flag"
     ],
     visibility = ["//visibility:public"],
 )

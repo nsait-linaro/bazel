@@ -80,7 +80,7 @@ all_link_actions = [
 ]
 
 def _use_msvc_toolchain(ctx):
-    return ctx.attr.cpu in ["x64_windows", "x64_arm64_windows"] and (ctx.attr.compiler == "msvc-cl" or ctx.attr.compiler == "clang-cl")
+    return ctx.attr.cpu in ["x64_windows", "arm64_windows"] and (ctx.attr.compiler == "msvc-cl" or ctx.attr.compiler == "clang-cl")
 
 def _impl(ctx):
     if _use_msvc_toolchain(ctx):
@@ -461,7 +461,7 @@ def _impl(ctx):
                     ],
                 ),
             ],
-            implies = [],
+            implies = ["generate_pdb_file"],
         )
 
         user_compile_flags_feature = feature(
@@ -531,17 +531,6 @@ def _impl(ctx):
                 ),
             ],
             requires = [feature_set(features = ["dbg"])],
-        )
-
-        target_system_feature = feature(
-            name = "target_system",
-            enabled = ctx.attr.compiler == "clang-cl" and ctx.attr.target_system_name != "local",
-            flag_sets = [
-                flag_set(
-                    actions = [ACTION_NAMES.c_compile, ACTION_NAMES.cpp_compile],
-                    flag_groups = [flag_group(flags = ["--target="+ctx.attr.target_system_name])],
-                )
-            ]
         )
 
         dbg_feature = feature(
@@ -1089,7 +1078,6 @@ def _impl(ctx):
             static_link_msvcrt_debug_feature,
             dynamic_link_msvcrt_debug_feature,
             dbg_feature,
-            target_system_feature,
             fastbuild_feature,
             opt_feature,
             frame_pointer_feature,
